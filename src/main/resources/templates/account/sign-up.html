@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.tymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>StudyOlle</title>
+    <title>スタディーG</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
     <style>
         .container{
@@ -16,29 +16,99 @@
     <a class="navbar-brand" href="/" th:href="@{/}">
         <img src="/images/logo_symbol.png" width="30" height="30">
     </a>
+    <!--반응형 뷰가 쪼그라들었을-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!--검색-->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <form th:action="@{/search/study}" class="form-inline" method="get">
-                    <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="스터디 찾기" aria-label="Search" />
+                    <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="スタディー検索" aria-label="Search" />
                 </form>
             </li>
         </ul>
 
+        <!--로그인,가입 버튼-->
         <ul class="navbar-nav justify-content-end">
             <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/login}">로그인</a>
+                <a class="nav-link" href="#" th:href="@{/login}">ログイン</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/signup}">가입</a>
+                <a class="nav-link" href="#" th:href="@{/signup}">登録</a>
             </li>
         </ul>
+
     </div>
 </nav>
+
+
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>アカウント作成</h2>
+    </div>
+    <div class="row justify-content-center">
+        <form class="needs-validatation col-sm-6" action="#"
+            th:action="@{/sign-up}" th:object="${signUpForm}" method="post" novalidate>
+            <div class="form-group">
+                <label for="nickname">ニックネーム</label>
+               <!-- <input id="nickname" type="text">-->
+                <input id="nickname" type="text" th:field="*{nickname}" class="form-control"
+                    placeholder="ムンちゃん" aria-describedby="nicknameHelp" required minlength="3" maxlength="20">
+                <small id="nicknameHelp" class="form-text text-muted">
+                    スペースを入れずに文字と数字でのみ3文字以上20文字以内で入力してください。 登録後に変更することができます。
+                </small>
+                <small class="invalid-feedback">ニックネームを入力してください。</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}">
+                    ニックネーム·エラー
+                </small>
+
+            </div>
+
+            <div class="form-group">
+                <label for="email">メール</label>
+                <input id="email" type="email" th:field="*{email}" class="form-control"
+                    placeholder="moon@email.com" aria-describedby="emailHelp" required>
+                <small id="emailHelp" class="form-text text-muted">
+                    このウェブサイトはユーザーのメールを公開しません。
+                </small>
+                <small class="invalid-feedback">メールを入力してください。</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">メール·エラー</small>
+            </div>
+
+            <div class="form-group">
+                <label for="password">パスワード</label>
+                <input id="password" type="password" th:field="*{password}" class="form-control"
+                       aria-describedby="passwordHelp" required minlength="8" maxlength="50">
+                <small id="passwordHelp" class="form-text text-muted">
+                    8文字以上50文字以内で入力してください。 英字、数字、特殊記号を使用でき、スペースは使用できません。
+                </small>
+                <small class="invalid-feedback">パスワードを入力してください。</small>
+                <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</small>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit"
+                        aria-describedby="submitHelp">登録する</button>
+                <small id="submitHelp" class="form-text text-muted">
+                    <a href="#">約款</a>に同意したら登録ボタンをクリックしてください。
+                </small>
+            </div>
+        </form>
+    </div>
+
+    <footer th:fragment="footer">
+        <div class="row justify-content-center">
+            <img class="mb-2" src="/images/logo_kr_horizontal.png" alt="スタディ-G" width="100" height="20">
+            <small class="d-block mb-3 text-muted">&copy; 2020</small>
+        </div>
+    </footer>
+
+        </form>
+    </div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
