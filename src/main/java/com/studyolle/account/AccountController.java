@@ -21,8 +21,8 @@ import javax.validation.Valid;
 public class AccountController {
 
     private final SignUpFormValidator signUpFormValidator;
-    private final AccountRepository accountRepository;
-    private final JavaMailSender javaMailSender;
+    private final AccountService accountService;
+
 
     //signUpForm가 아래의 signUpSubmit의 signUpForm과 mapping
     @InitBinder("signUpForm")
@@ -46,32 +46,12 @@ public class AccountController {
             return "account/sign-up";
         }
 
-        Account account = Account.builder()
-                .email(signUpForm.getEmail())
-                .nickname(signUpForm.getNickname())
-                .password(signUpForm.getPassword()) //TODO encoding 해야함
-                .sStudyCreatedByWeb(true)
-                .studyEnrollmentResultByEmail(true)
-                .studyUpdatedByWeb(true)
-                .build();
-
-        //회원 저장
-        Account newAccount = accountRepository.save(account);
-
-        //토큰 만들고
-        newAccount.generateEmailCheckToken();
-        //메세지 만들기
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(newAccount.getEmail());
-        mailMessage.setSubject("スタディーG、会員登録認証");
-        mailMessage.setText("/check-email-token?token="+newAccount.getEmailCheckToken()
-                +"&email="+newAccount.getEmail());
-        //메세지 보내기
-        javaMailSender.send(mailMessage);
-
-        //TODO 회원 가입 처리
+        //인증 이메일 보낸다는것을 controller가 알아야 할 필요는 없을 것 같아서 숨
+        accountService.processNewAccount(signUpForm);
         return "redirect:/";
 
     }
+
+
 
 }
