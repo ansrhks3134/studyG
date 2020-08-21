@@ -35,7 +35,7 @@ public class AccountService {
                 .email(signUpForm.getEmail())
                 .nickname(signUpForm.getNickname())
                 .password(passwordEncoder.encode(signUpForm.getPassword()))
-                .sStudyCreatedByWeb(true)
+                .studyCreatedByWeb(true)
                 .studyEnrollmentResultByEmail(true)
                 .studyUpdatedByWeb(true)
                 .build();
